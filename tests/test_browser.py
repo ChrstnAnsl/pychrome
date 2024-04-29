@@ -57,6 +57,26 @@ def test_browser_activate_tab():
     for tab in tabs:
         browser.activate_tab(tab)
 
+def test_browser_get_current_tab():
+    browser = pychrome.Browser()
+    tab1 = browser.new_tab()
+    tab2 = browser.new_tab()
+
+    browser.activate_tab(tab1)
+    current_tab = browser.get_current_tab()
+    assert current_tab == tab1
+
+    browser.activate_tab(tab2)
+    current_tab = browser.get_current_tab()
+    assert current_tab == tab2
+
+    browser.close_tab(tab2)
+    current_tab = browser.get_current_tab()
+    assert current_tab == tab1
+
+    browser.close_tab(tab1)
+    current_tab = browser.get_current_tab()
+    assert current_tab is None
 
 def test_browser_tabs_map():
     browser = pychrome.Browser()

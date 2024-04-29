@@ -51,6 +51,15 @@ class Browser(object):
         rp = requests.get("%s/json/activate/%s" % (self.dev_url, tab_id), timeout=timeout)
         return rp.text
 
+    def get_current_tab(self, timeout=None):
+        rp = requests.get("%s/json/activate" % self.dev_url, timeout=timeout)
+        activated_tab_id = rp.json().get('id')
+
+        if activated_tab_id in self._tabs:
+            return self._tabs[activated_tab_id]
+        else:
+            return None
+
     def close_tab(self, tab_id, timeout=None):
         if isinstance(tab_id, Tab):
             tab_id = tab_id.id
